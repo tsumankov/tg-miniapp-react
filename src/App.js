@@ -1,58 +1,95 @@
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
+import Card from "./Components/Card/Card";
+import Cart from "./Components/Cart/Cart";
+const { getData } = require("./db/db");
+const foods = getData();
+
+const tele = window.Telegram.WebApp;
 
 function App() {
-  return (
-    <script>
-      // Функция для получения дня недели
-function getWeekday(date) {
-  const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-  return weekdays[date.getDay()];
-}
+  const [cartItems, setCartItems] = useState([]);
 
-// Функция для создания календаря
-function createCalendar(year, month) {
-  const calendarBody = document.getElementById('calendar-body');
-  calendarBody.innerHTML = '';
-  
-  const startDate = new Date(year, month, 1);
-  const endDate = new Date(year, month + 1, 0);
-  
-  let currentDate = new Date(startDate);
-  let row = calendarBody.insertRow();
+  useEffect(() => {
+    tele.ready();
+  });
 
-  // Пропускаем дни недели до начала месяца
-  while (currentDate.getDay() !== 1) {
-    currentDate.setDate(currentDate.getDate() - 1);
-  }
-
-  // Создаем календарь
-  while (currentDate <= endDate) {
-    const cell = row.insertCell();
-    cell.appendChild(document.createTextNode(currentDate.getDate() + ' (' + getWeekday(currentDate) + ')'));
-  
-    // Переходим на следующий день
-    currentDate.setDate(currentDate.getDate() + 1);
-  
-    // Если текущий день - воскресенье, начинаем новую строку
-    if (currentDate.getDay() === 1) {
-      row = calendarBody.insertRow();
+  const onAdd = (food) => {
+    const exist = cartItems.find((x) => x.id === food.id);
+    if (exist) {
+      setCartItems(
+        cartItems.map((x) =>
+          x.id === food.id ? { ...exist, quantity: exist.quantity + 1 } : x
+        )
+      );
+    } else {
+      setCartItems([...cartItems, { ...food, quantity: 1 }]);
     }
-  }
-}
+  };
 
-// Получаем текущую дату
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.getMonth();
+  const onRemove = (food) => {
+    const exist = cartItems.find((x) => x.id === food.id);
+    if (exist.quantity === 1) {
+      setCartItems(cartItems.filter((x) => x.id !== food.id));
+    } else {
+      setCartItems(
+        cartItems.map((x) =>
+          x.id === food.id ? { ...exist, quantity: exist.quantity - 1 } : x
+        )
+      );
+    }
+  };
 
-// Выводим календарь текущего месяца
-createCalendar(currentYear, currentMonth);
-    </script>
-    <div className="App" id="calendar-body">
+  const onCheckout = () => {
+    tele.MainButton.text = "Pay :)";
+    tele.MainButton.show();
+  };
 
-    </ div>
+  return (
+    <>
+      <Cart cartItems={cartItems} onCheckout={onCheckout} />
+      <div className="cards__container">
+        {foods.map((food) => {
+          return (
+            <Card food={food} key={food.id} onAdd={onAdd} onRemove={onRemove} />
+          );
+        })}
+      </div>
+    </>
   );
 }
 
 export default App;
 
+/* import './App.css';
+import Button from './Components/Button';
+import React, { useState, useEffect } from 'react';
+
+const Preloader = () => {
+  return (
+    <div>
+      <img src="../images/preloader.gif" alt="Loading..." />
+    </div>
+  );
+};
+
+function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Любая асинхронная операция, которая выполняется при первой загрузке страницы
+    // Например, имитация задержки загрузки данных
+    setTimeout(() => {
+      setLoading(false);
+    }, 12000);
+  }, []);
+
+  return (
+    <div>
+      {loading ? <Preloader /> : <h1>тест</h1>}
+    </div>
+  )
+};
+
+export default App; */
+// < Button title={'Test'} disable={false} />

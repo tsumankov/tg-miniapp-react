@@ -1,0 +1,81 @@
+:root {
+    --primary-color: #FCAA1E;
+}
+
+.btn {
+    padding: 0.1rem 0.1rem;
+    font-size: 1.8rem;
+    text-align: center;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    width: 40px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.btn.add {
+    background-color: var(--primary-color);
+}
+
+.btn.remove {
+    background-color: tomato;
+}
+
+.btn.checkout {
+    background-color: rgb(38, 121, 38);
+    width: 150px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+
+.btn.remove:hover {
+    background-color: rgb(209, 83, 61);
+}
+
+.btn.remove:active {
+    background-color: rgb(185, 73, 54);
+}
+
+.btn.checkout:hover {
+    background-color: rgb(41, 141, 41);
+}
+
+.btn.checkout:active {
+    background-color: rgb(30, 93, 41);
+}
+
+
+button {
+    position: relative;
+    overflow: hidden;
+    transition: background 400ms;
+    color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    outline: 0;
+    border: 0;
+    border-radius: 0.25rem;
+    /* black with 30% opacity */
+    cursor: pointer;
+}
+
+span.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 500ms linear;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
