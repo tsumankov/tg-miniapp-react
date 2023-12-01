@@ -49,7 +49,6 @@
   const decreaseBtn = document.querySelector('.btn.remove');
 
   increaseBtn.addEventListener('click', () => {
-    cardBadge.textContent = parseInt(cardBadge.textContent) + 1; // увеличиваем значение на 1
     cardBadge.style.transform = 'scale(1.2)'; // временно уменьшаем размер блока
     setTimeout(() => {
       cardBadge.style.transform = 'scale(1)'; // возвращаем обычный размер блока через 0.3 секунды
@@ -58,7 +57,6 @@
 
   decreaseBtn.addEventListener('click', () => {
     if (parseInt(cardBadge.textContent) > 0) {
-      cardBadge.textContent = parseInt(cardBadge.textContent) - 1; // уменьшаем значение на 1
       cardBadge.style.transform = 'scale(0.8)'; // временно уменьшаем размер блока
       setTimeout(() => {
         cardBadge.style.transform = 'scale(1)'; // возвращаем обычный размер блока через 0.3 секунды

@@ -6,10 +6,12 @@ function Card({ food, onAdd, onRemove }) {
   const [count, setCount] = useState(0);
   const { title, Image, price } = food;
 
+
   const handleIncrement = () => {
     setCount(count + 1);
     onAdd(food);
   };
+
   const handleDecrement = () => {
     setCount(count - 1);
     onRemove(food);

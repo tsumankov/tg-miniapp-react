@@ -1,8 +1,20 @@
 import React from "react";
 import "./Cart.css";
 import Button from "../Button/Button";
+import { useTelegram } from "../../hooks/useTelegram";
+
 function Cart({ cartItems, onCheckout }) {
   const totalPrice = cartItems.reduce((a, c) => a + c.price * c.quantity, 0);
+  const { tg } = useTelegram();
+
+  if (cartItems.length === 0) {
+    tg.MainButton.hide();
+  } else {
+    tg.MainButton.show();
+    tg.MainButton.setParams({
+      text: "Оформить заказ"
+    })
+  }
 
   return (
     <div className="cart__container">
